@@ -345,7 +345,7 @@ namespace Unity.Serialization.Json
                 // Handle special cases
                 if (float.IsNaN(value))
                 {
-                    WriteNaN();
+                    WriteValueLiteral('0');
                     return;
                 }
 
@@ -359,7 +359,7 @@ namespace Unity.Serialization.Json
                 }
 
                 // Flush denormals to zero - just write "0" directly
-                uint bits = math.asuint(value);
+                uint bits = *(uint*)(&value);
                 uint exponent = (bits >> 23) & 0xFF;
                 if (exponent == 0) // zero or denormalized
                 {

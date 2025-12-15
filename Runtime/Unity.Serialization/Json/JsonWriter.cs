@@ -1046,15 +1046,7 @@ namespace Unity.Serialization.Json
         /// <param name="value">The value to write.</param>
         public void WriteValue(double value)
         {
-            var str = value.ToString(System.Globalization.CultureInfo.InvariantCulture);
-
-            unsafe
-            {
-                fixed (char* ptr = str)
-                {
-                    m_Impl.WriteValueLiteral(ptr, str.Length);
-                }
-            }
+            WriteValue((float)value); // safe as deserializer still uses float
         }
 
         /// <summary>
